@@ -79,10 +79,10 @@ class _HomePageState extends State<HomePage> {
         final TextEditingController titleController = TextEditingController();
 
         return AlertDialog(
-          title: Text('Add Event'),
+          title: const Text('Add Event'),
           content: TextField(
             controller: titleController,
-            decoration: InputDecoration(labelText: 'Event Title'),
+            decoration: const InputDecoration(labelText: 'Event Title'),
           ),
           actions: <Widget>[
             TextButton(
