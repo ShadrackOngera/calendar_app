@@ -70,6 +70,43 @@ class _HomePageState extends State<HomePage> {
   //     _selectedEvents.value = _getEventsForDay(end);
   //   }
   // }
+  void _addEvent() {
+    // Show a dialog to capture event details
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // Use a TextEditingController to capture the event title
+        final TextEditingController titleController = TextEditingController();
+
+        return AlertDialog(
+          title: Text('Add Event'),
+          content: TextField(
+            controller: titleController,
+            decoration: InputDecoration(labelText: 'Event Title'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                // Get the event title from the text field
+                final String title = titleController.text;
+                if (title.isNotEmpty) {
+                  // Create the event and add it to the selected day's events
+                  setState(() {
+                    final List<Event> events = kEvents[_selectedDay] ?? [];
+                    events.add(Event(title));
+                    kEvents[_selectedDay!] = events;
+                  });
+                }
+                // Close the dialog
+                Navigator.of(context).pop();
+              },
+              child: Text('Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
@@ -124,6 +161,10 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _addEvent,
+        child: Icon(Icons.add),
       ),
     );
   }
