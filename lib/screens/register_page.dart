@@ -65,7 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                Icons.dinner_dining_rounded,
+                Icons.calendar_month_outlined,
                 size: 72,
                 color: Theme.of(context).colorScheme.inversePrimary,
               ),
