@@ -74,7 +74,6 @@ class _HomePageState extends State<HomePage> {
   //   }
   // }
   void _addEvent() {
-    print('add event pressed');
     // Show a dialog to capture event details
     showDialog(
       context: context,
@@ -150,7 +149,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         foregroundColor: Theme.of(context).colorScheme.inversePrimary,
-        automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
       ),
       drawer: const MyDrawer(),
       body: SingleChildScrollView(
@@ -170,7 +169,7 @@ class _HomePageState extends State<HomePage> {
             ValueListenableBuilder<List<Event>>(
               valueListenable: _selectedEvents,
               builder: (context, value, _) {
-                return ListView.builder(
+              return ListView.builder(
                   shrinkWrap: true,
                   itemCount: value.length,
                   itemBuilder: (context, index) {
