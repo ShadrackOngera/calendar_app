@@ -1,4 +1,7 @@
 import 'package:calendar_app/utils/calendar_utils.dart';
+import 'package:calendar_app/widgets/drawer.dart';
+import 'package:calendar_app/widgets/primary_text_field.dart';
+import 'package:calendar_app/widgets/primary_text.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -71,36 +74,61 @@ class _HomePageState extends State<HomePage> {
   //   }
   // }
   void _addEvent() {
+    print('add event pressed');
     // Show a dialog to capture event details
     showDialog(
       context: context,
       builder: (BuildContext context) {
         // Use a TextEditingController to capture the event title
         final TextEditingController titleController = TextEditingController();
+        final TextEditingController descriptionController =
+            TextEditingController();
 
         return AlertDialog(
-          title: const Text('Add Event'),
-          content: TextField(
-            controller: titleController,
-            decoration: const InputDecoration(labelText: 'Event Title'),
+          title: PrimaryText(
+            text: 'Add Event',
+            color: Theme.of(context).colorScheme.inversePrimary,
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              PrimaryTextField(
+                controller: titleController,
+                obsecureText: false,
+                label: 'Title',
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              PrimaryTextField(
+                controller: descriptionController,
+                obsecureText: false,
+                label: 'Description',
+                onChanged: () {},
+              ),
+            ],
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 // Get the event title from the text field
                 final String title = titleController.text;
+                final String description = descriptionController.text;
                 if (title.isNotEmpty) {
                   // Create the event and add it to the selected day's events
                   setState(() {
                     final List<Event> events = kEvents[_selectedDay] ?? [];
-                    events.add(Event(title));
+                    events.add(Event(title, description));
                     kEvents[_selectedDay!] = events;
                   });
                 }
                 // Close the dialog
                 Navigator.of(context).pop();
               },
-              child: Text('Add'),
+              child: PrimaryText(
+                text: 'Add',
+                color: Theme.of(context).colorScheme.inversePrimary,
+              ),
             ),
           ],
         );
@@ -119,7 +147,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        foregroundColor: Theme.of(context).colorScheme.inversePrimary,
+        automaticallyImplyLeading: false,
+      ),
+      drawer: const MyDrawer(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
         child: Column(
@@ -151,7 +184,6 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       child: ListTile(
-                        onTap: () => print('${value[index]}'),
                         title: Text('${value[index]}'),
                       ),
                     );
@@ -164,7 +196,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addEvent,
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
